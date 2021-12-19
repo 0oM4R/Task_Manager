@@ -1,5 +1,5 @@
 const connection = require("../DB/configration");
-const taskModel = require("../modules/task");
+const taskModel = require("../modules/taskModule");
 
 const allTasks = async (req, res) => {
   await taskModel
@@ -39,7 +39,7 @@ const getById = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  const allow = ["description", "complete", "password"];
+  const allow = ["description", "complete"];
   const fields = Object.keys(req.body);
   const valid = fields.every((field) => allow.includes(field));
 

@@ -12,21 +12,6 @@ const taskSchema = mongoose.Schema({
         required: true,
         trim:true
     },
-    email:{
-        type: String,
-     
-        lowercase:true,
-        validate(value){
-          if(!valdator.isEmail(value)){
-              throw new Error("Invalid email")
-          } 
-        }
-    },
-    password:{
-        type: String,
-        required: true
-    },
-   
    complete: {
         type: Boolean,
         defult:false
@@ -35,11 +20,6 @@ const taskSchema = mongoose.Schema({
 })
 
 
-taskSchema.pre('save',async function(next){
- if(this.isModified("password")){
-  this.password =await bcrypt.hash(this.password,8)
- }
-   next();
-})
+
 module.exports = taskSchema;
   

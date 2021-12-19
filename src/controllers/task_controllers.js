@@ -12,13 +12,20 @@ const allTasks = async (req, res) => {
     });
 };
 const addTask = async (req, res) => {
-  const { title, description, complete } = req.body;
-  await taskModel
-    .insertMany({ title, description })
-    .then(() => {
-      res.status(200).send(`task with title ${title} added`);
-    })
-    .catch((err) => res.status(400).json({ message: "error", err }));
+  // const { title, description,password, complete } = req.body;
+  // await taskModel
+  //   .insertMany({ title, description,password,complete })
+  //   .then(() => {
+  //     res.status(200).send(`task with title ${title} added`);
+  //   })
+  //   .catch((err) => res.status(400).json({ message: "error", err }));
+  const task = new taskModel(req.body)
+  task.save().then(()=>{
+      res.status(200).send(task)
+  }).catch((error)=>{
+      res.status(400).send(error)
+  })
+
 };
 const getById = async (req, res) => {
   await taskModel

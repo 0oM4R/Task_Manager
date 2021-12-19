@@ -19,13 +19,15 @@ const addTask = async (req, res) => {
   //     res.status(200).send(`task with title ${title} added`);
   //   })
   //   .catch((err) => res.status(400).json({ message: "error", err }));
-  const task = new taskModel(req.body)
-  task.save().then(()=>{
-      res.status(200).send(task)
-  }).catch((error)=>{
-      res.status(400).send(error)
-  })
-
+  const task = new taskModel(req.body);
+  task
+    .save()
+    .then(() => {
+      res.status(200).send(task);
+    })
+    .catch((error) => {
+      res.status(400).send(error);
+    });
 };
 const getById = async (req, res) => {
   await taskModel
@@ -37,44 +39,45 @@ const getById = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  const allow = ["description", "complete"];
+  const allow = ["description", "complete", "password"];
   const fields = Object.keys(req.body);
   const valid = fields.every((field) => allow.includes(field));
-  console.log(req.params.taskId);
+
   if (valid) {
-    await taskModel
-      .findByIdAndUpdate(req.params.taskId, req.body, {
-        new: true,
-        runValidators: true,
-      })
-      .then((data) => {
-        if (data) {
-          res.status(200).send(data);
-        } else {
-          res.status(400).send(data);
-        }
-      })
-      .catch((err) => {
-        res.status(500).send(err);
-      });
+    try {
+      const id = req.params.taskId;
+    
+      const task = await taskModel.findById(id);
+
+      if (!task) {
+        return res.status(400).send("No task founeded");
+      }
+      fields.forEach((element) => (task[element] = req.body[element]));
+      //accessing object value by brackets cause I'm not sure that the key is exist
+      await task.save();
+      res.status(200).send(task);
+    } catch (err) {
+      res.status(500).send(err);
+    }
   } else {
     const notAllowed = fields.filter((field) => !allow.includes(field));
     res.status(400).send(`you can't ediet ${notAllowed} field`);
   }
-}
+};
 
-const deleteTask =  (req, res) => {
-    taskModel.findByIdAndDelete(req.params.taskID).then((data)=>{
-        if(data){
-            res.send(`task with id: ${req.params.taskID} has been deleted`);
-        }else{
-            res.status(400).send(`task id: ${req.params._id} Not Found`);
-        }
-
-    }).catch((e)=>{
-        res.status(500).send(e)
-
+const deleteTask = (req, res) => {
+  taskModel
+    .findByIdAndDelete(req.params.taskID)
+    .then((data) => {
+      if (data) {
+        res.send(`task with id: ${req.params.taskID} has been deleted`);
+      } else {
+        res.status(400).send(`task id: ${req.params._id} Not Found`);
+      }
+    })
+    .catch((e) => {
+      res.status(500).send(e);
     });
-}
+};
 
-module.exports = { allTasks, addTask, getById, updateTask,deleteTask };
+module.exports = { allTasks, addTask, getById, updateTask, deleteTask };

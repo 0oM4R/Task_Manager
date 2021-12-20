@@ -73,5 +73,13 @@ const deleteUser = (req, res) => {
       res.status(500).send(e);
     });
 };
+const login = async(req, res) => {
+  try {
+    const user= await userModel.findByCredentials(req.body.email, req.body.password)
+    res.status(200).send("Success");
+  }catch (err) {
+    res.status(500).send(err.message);
+  }
+}
 
-module.exports = { allUsers, addUser, getById, updateUser, deleteUser };
+module.exports = { allUsers, addUser, getById, updateUser, deleteUser,login };

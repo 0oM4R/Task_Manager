@@ -6,6 +6,7 @@ const userController =require("../controllers/userController")
 router.get("/alluser", userController.allUsers);
 
 router.post("/addUser", userController.addUser);
+router.post('/login', userController.login);
 
 router.get("/get/:userId", userController.getById);
 

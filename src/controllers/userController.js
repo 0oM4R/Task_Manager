@@ -14,10 +14,8 @@ const allUsers = async (req, res) => {
 const addUser = async (req, res) => {
   
   const user = new userModel(req.body);
-  user
-    .save()
-    .then(() => {
-      res.status(200).send(user);
+  const token =await user.creatToken().then(() => {
+      res.status(200).send({user,token});
     })
     .catch((error) => {
       res.status(400).send(error);
@@ -76,7 +74,8 @@ const deleteUser = (req, res) => {
 const login = async(req, res) => {
   try {
     const user= await userModel.findByCredentials(req.body.email, req.body.password)
-    res.status(200).send("Success");
+    const token =await user.creatToken()
+    res.status(200).send({user,token});
   }catch (err) {
     res.status(500).send(err.message);
   }

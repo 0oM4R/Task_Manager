@@ -14,11 +14,11 @@ const allUsers = async (req, res) => {
 const addUser = async (req, res) => {
   
   const user = new userModel(req.body);
-  const token =await user.creatToken().then(() => {
+  const token =user.creatToken().then(() => {
       res.status(200).send({user,token});
     })
     .catch((error) => {
-      res.status(400).send(error);
+      res.status(400).send(error.message);
     });
 };
 const getById = async (req, res) => {

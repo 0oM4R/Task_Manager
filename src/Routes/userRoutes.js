@@ -9,9 +9,12 @@ router.get("/alluser",auth, userController.allUsers);
 router.post("/addUser", userController.addUser);
 router.post('/login', userController.login);
 
-router.get("/get/:userId", userController.getById);
+router.get("/get/:userId",auth, userController.getById);
+router.get('/profile',auth,(req, res) =>{
+    res.send(req.user)
+}
+)
+router.patch("/editUser/:userId",auth,userController.updateUser);
 
-router.patch("/editUser/:userId",userController.updateUser);
-
-router.delete('/deleteUser/:userID',userController.deleteUser);
+router.delete('/deleteUser/:userID',auth,userController.deleteUser);
 module.exports = router;

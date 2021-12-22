@@ -1,53 +1,46 @@
 const connection = require("../DB/configration");
-const taskModel = require("../modules/taskModule");
+const taskModule = require("../model/taskModel");
 
-const allTasks = async (req, res) => {
-  await taskModel
-    .find({})
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((error) => {
-      res.status(400).send(error);
-    });
+const allTasks = async (req, res) => { 
+ try{
+     await req.user.populate('tasks')  
+
+    res.status(200).send(req.user.tasks)
+    
+ }catch(err){
+  res.status(500).send(err)
+}
 };
+
 const addTask = async (req, res) => {
-  // const { title, description,password, complete } = req.body;
-  // await taskModel
-  //   .insertMany({ title, description,password,complete })
-  //   .then(() => {
-  //     res.status(200).send(`task with title ${title} added`);
-  //   })
-  //   .catch((err) => res.status(400).json({ message: "error", err }));
-  const task = new taskModel(req.body);
-  task
-    .save()
-    .then(() => {
-      res.status(200).send(task);
-    })
-    .catch((error) => {
-      res.status(400).send(error);
-    });
-};
+  try{
+    const task = new taskModule({...req.body,owner:req.user._id})
+    await task.save();
+    res.status(200).send(task);
+  }catch(err){
+    res.status(400).send(err.message)
+  }
+}
 const getById = async (req, res) => {
-  await taskModel
-    .findById(req.params.taskId)
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((err) => res.status(400).json({ message: "error" }));
+  try {
+    const _id = req.params.taskId;
+    const task = await taskModule.findOne({ _id, owner: req.user._id });
+    if (!task) {
+      return res.status(404).send("Not founeded");
+    }
+    res.status(200).send(task);
+  } catch (err){
+    res.status(400).json({ message: "error", err: err.message });
+  }
 };
-
 const updateTask = async (req, res) => {
   const allow = ["description", "complete"];
   const fields = Object.keys(req.body);
   const valid = fields.every((field) => allow.includes(field));
-
   if (valid) {
     try {
-      const id = req.params.taskId;
-    
-      const task = await taskModel.findById(id);
+      const _id = req.params.taskId;
+      const task = await taskModule.findOne({_id,owner: req.user._id} );
 
       if (!task) {
         return res.status(400).send("No task founeded");
@@ -64,10 +57,10 @@ const updateTask = async (req, res) => {
     res.status(400).send(`you can't ediet ${notAllowed} field`);
   }
 };
-
+ 
 const deleteTask = (req, res) => {
-  taskModel
-    .findByIdAndDelete(req.params.taskID)
+  taskModule
+    .findOneAndDelete({_id:req.params.taskID,owner: req.user._id})
     .then((data) => {
       if (data) {
         res.send(`task with id: ${req.params.taskID} has been deleted`);

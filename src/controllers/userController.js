@@ -1,5 +1,5 @@
 const connection = require("../DB/configration");
-const userModel = require("../modules/userModule");
+const userModel = require("../model/userModel");
 
 const allUsers = async (req, res) => {
   await userModel

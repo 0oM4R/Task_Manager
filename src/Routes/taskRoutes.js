@@ -1,15 +1,14 @@
 
 const router = require("express").Router();
 const taskController = require("../controllers/taskControllers")
-const userController =require("../controllers/userController")
+const auth = require("../middelware/auth")
+router.get("/all/task",auth, taskController.allTasks);
 
-router.get("/allTask", taskController.allTasks);
+router.post("/add/task",auth,taskController.addTask);
 
-router.post("/add", taskController.addTask);
+router.get("/get/task/:taskId", auth,taskController.getById);
 
-router.get("/get:taskId", taskController.getById);
+router.patch("/edit/task/:taskId", auth, taskController.updateTask);
 
-router.patch("/edit/:taskId",taskController.updateTask);
-
-router.delete('/delete/:taskID',taskController.deleteTask);
+router.delete('/delete/task/:taskID', auth, taskController.deleteTask);
 module.exports = router;

@@ -10,15 +10,19 @@ const taskSchema = mongoose.Schema({
     description: {
         type: String,
         required: true,
-        trim:true
+        
     },
    complete: {
         type: Boolean,
         defult:false
+    },
+    owner:{
+        type :mongoose.Schema.ObjectId,
+        required: true,
+        ref: 'User'
     }
 
 })
-
 
 
 module.exports = taskSchema;

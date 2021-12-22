@@ -16,5 +16,7 @@ router.get('/profile',auth,(req, res) =>{
 )
 router.patch("/editUser/:userId",auth,userController.updateUser);
 
+router.delete("/logout",auth,userController.logout);
+router.delete("/logoutAll",auth,userController.logoutAll);
 router.delete('/deleteUser/:userID',auth,userController.deleteUser);
 module.exports = router;

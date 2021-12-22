@@ -80,5 +80,28 @@ const login = async(req, res) => {
     res.status(500).send(err.message);
   }
 }
+const logout = async (req, res) => {
+  try {
+    req.user.tokens=req.user.tokens.filter((el) => {
+      console.log(el)
+      return el !== req.token
+    })
+    await req.user.save();
+    res.status(200).send('Logout success')
+  }catch (err) {
+    res.status(500).send(err.message);
+  }
+}
+ const logoutAll= async (req, res) => {
+   try{
+      req.user.tokens= req.user.tokens=[];
+      await req.user.save();
+      res.status(200).send("loged out from all devices");
+    }
+    catch(err){
+      res.status(500).send(err.message);
+    }
 
-module.exports = { allUsers, addUser, getById, updateUser, deleteUser,login };
+ }
+
+module.exports = { allUsers, addUser, getById, updateUser, deleteUser,login ,logout,logoutAll };

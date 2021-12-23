@@ -1,6 +1,6 @@
 const connection = require("../DB/configration");
 const taskModule = require("../model/taskModel");
-
+const multer = require("multer");
 const allTasks = async (req, res) => { 
  try{
      await req.user.populate('tasks')  
@@ -73,4 +73,31 @@ const deleteTask = (req, res) => {
     });
 };
 
-module.exports = { allTasks, addTask, getById, updateTask, deleteTask };
+const uploud= multer({
+  limits :{
+    fileSize:1000000
+  },
+  fileFilter(req,file,cb){
+    if(!file.originalname.match(/\.(jpg|jpeg|png|gfif)$/ )){
+       cb(new Error('only image files are allowed'))
+    }
+    cb(null,true);
+  }
+})
+
+const upImg= async(req, res)=>{
+ try{
+  const _id = req.params.taskId;
+  const task = await taskModule.findOne({ _id, owner: req.user._id });
+  if (!task) {
+    return res.status(404).send("Not founeded");
+  }
+  task.img =req.file.buffer
+  await task.save()
+  res.status(200).send('task image uplouded ')
+  }catch (err) {
+    res.status(400).send(err)
+  }
+}
+
+module.exports = { allTasks, addTask, getById, updateTask, deleteTask ,uploud, upImg};

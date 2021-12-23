@@ -16,6 +16,9 @@ const taskSchema = mongoose.Schema({
         type: Boolean,
         defult:false
     },
+    img: {
+        type :Buffer
+    },
     owner:{
         type :mongoose.Schema.ObjectId,
         required: true,

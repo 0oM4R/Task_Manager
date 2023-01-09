@@ -24,9 +24,9 @@ body:
     validations:
       required: true
   - type: textarea
-    id: Software version
+    id: version
     attributes:
-      label: Version
+      label: Software version
       description: What type version of our software are you running?
       placeholder: "e.g ZOS: v3.4.0"
     validations:
@@ -41,7 +41,7 @@ body:
         - Chrome
         - Safari
         - Microsoft Edge
-        - None
+        - not using a browser
   - type: textarea
     id: ZOS
     attributes:

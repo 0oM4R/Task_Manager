@@ -29,15 +29,15 @@ body:
     validations:
       required: true
   - type: dropdown
-      id: browsers
-      attributes:
-        label: What browsers are you seeing the problem on?
-        multiple: true
-        options:
-          - Firefox
-          - Chrome
-          - Safari
-          - Microsoft Edge
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Firefox
+        - Chrome
+        - Safari
+        - Microsoft Edge
   - type: textarea
     id: ZOS
     attributes:

@@ -11,7 +11,7 @@ body:
   - type: markdown
     attributes:
       value: |        
-         ### Please make sure to search for similar issues first, if not complete the following template
+         ### Please make sure to search for similar issues first.
   - type: input
     id: contact
     attributes:

@@ -15,15 +15,7 @@ body:
       placeholder: ex. email@example.com
     validations:
       required: false
-  - type: textarea
-    id: what-happened
-    attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-    validations:
-      required: true
-  - type: textarea
+  - type: input
     id: version
     attributes:
       label: Software version
@@ -41,13 +33,32 @@ body:
         - Chrome
         - Safari
         - Microsoft Edge
-        - not using a browser
   - type: textarea
     id: ZOS
     attributes:
       label: ZOS info
-      description: are you using ZOS? give us more information about it.
+      description: Are you using ZOS? give us more information about it.
       placeholder: ZOS related info
+  - type: textarea
+    id: dashboard
+    attributes:
+      label: Dashboard info
+      description: Are you using Dashboard? give us more information about it.
+      placeholder: Dashboard URL, and related info
+  - type: textarea
+    id: weblets
+    attributes:
+      label: weblets info
+      description: Are you using Weblets? give us more information about it.
+      placeholder: weblets URL, and related info
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us in detail what you see!
+    validations:
+      required: true
   - type: textarea
     id: logs
     attributes:

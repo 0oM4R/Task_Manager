@@ -28,7 +28,7 @@ body:
     attributes:
       label: Version
       description: What type version of our software are you running?
-      placeholder: e.g "ZOS: v3.4.0"
+      placeholder: "e.g ZOS: v3.4.0"
     validations:
       required: true
   - type: dropdown

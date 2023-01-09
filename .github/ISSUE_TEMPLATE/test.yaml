@@ -6,8 +6,12 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report!<br>
-        Please make sure to search for similar issues first, if not complete the following template
+        Thanks for taking the time to fill out this bug report!
+        
+  - type: markdown
+    attributes:
+      value: |        
+         ### Please make sure to search for similar issues first, if not complete the following template
   - type: input
     id: contact
     attributes:
